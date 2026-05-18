@@ -1,0 +1,27 @@
+# Terraform
+**/.terraform/*
+**/*.tfstate
+**/*.tfstate.*
+**/terraform.tfvars
+**/*.tfvars
+**/crash.log
+**/.terraform.lock.hcl
+
+# Environment files
+**/.env
+**/.env.*
+
+# Secrets
+**/secrets/*
+**/*.pem
+**/*.key
+
+# Python
+**/__pycache__/
+**/*.pyc
+
+# VSCode
+.vscode/
+
+# OS files
+.DS_Store
