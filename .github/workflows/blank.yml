@@ -1,32 +1,62 @@
-# This is a basic workflow to help you get started with Actions
+name: Terraform Sandbox CI/CD
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "dev" branch
-  push:
-    branches: [ "dev" ]
-  pull_request:
-    branches: [ "dev" ]
 
-  # Allows you to run this workflow manually from the Actions tab
+  pull_request:
+    branches:
+      - sandbox
+
+  push:
+    branches:
+      - sandbox
+
   workflow_dispatch:
 
-# Need ID token write permission to use OIDC
 permissions:
   id-token: write
   contents: read
+
 jobs:
-  run_job_with_aws:
+
+  terraform:
+
     runs-on: ubuntu-latest
+
+    environment: sandbox
+
+    defaults:
+      run:
+        working-directory: environments/sandbox
+
     steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v6.1.0
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::565393071767:role/GIthuActions-CICD-RemoteInfra
           aws-region: ap-south-1
-      - name: Additional steps
-        run: |
-          # Your commands that require AWS credentials
-          aws sts get-caller-identity
+
+      - name: Verify AWS Identity
+        run: aws sts get-caller-identity
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        if: github.event_name == 'push'
+        run: terraform apply -auto-approve
