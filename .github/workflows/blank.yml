@@ -1,14 +1,16 @@
-name: Terraform Sandbox CI/CD
+name: Terraform Infrastructure CI/CD
 
 on:
 
   pull_request:
     branches:
       - sandbox
+      - production
 
   push:
     branches:
       - sandbox
+      - production
 
   workflow_dispatch:
 
@@ -22,11 +24,11 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    environment: sandbox
+    environment: ${{ github.ref_name }}
 
     defaults:
       run:
-        working-directory: environments/sandbox
+        working-directory: environments/${{ github.ref_name }}
 
     steps:
 
@@ -58,5 +60,5 @@ jobs:
         run: terraform plan
 
       - name: Terraform Apply
-        if: github.event_name == 'push'
+        if: github.ref_name == 'production' && github.event_name == 'push'
         run: terraform apply -auto-approve
