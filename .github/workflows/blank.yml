@@ -26,9 +26,6 @@ jobs:
 
     environment: ${{ github.ref_name }}
 
-    defaults:
-      run:
-        working-directory: environments/${{ github.ref_name }}
 
     steps:
 
