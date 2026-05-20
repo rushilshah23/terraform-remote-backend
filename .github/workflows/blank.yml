@@ -58,3 +58,8 @@ jobs:
       - name: Terraform Plan
         working-directory: environments/${{ github.ref_name }}
         run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: environments/${{ github.ref_name }}
+        run: terraform apply
+      
