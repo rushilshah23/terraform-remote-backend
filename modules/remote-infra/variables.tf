@@ -1,19 +1,19 @@
 variable "enviornment" {
-    type = string
+  type = string
 }
 
 variable "bucket_name" {
-    type = string
+  type = string
 }
 
 variable "dynamodb_table_name" {
-    type = string
+  type = string
 }
 
 variable "hash_key" {
-    type = string
-    sensitive = true
+  type      = string
+  sensitive = true
 }
 variable "region" {
-    type = string
+  type = string
 }
