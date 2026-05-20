@@ -55,6 +55,10 @@ jobs:
         working-directory: environments/${{ github.ref_name }}
         run: terraform validate
 
+      - name: Debug TF Vars
+        run: |
+          env | grep TF_VAR
+          
       - name: Terraform Plan
         working-directory: environments/${{ github.ref_name }}
         run: terraform plan
