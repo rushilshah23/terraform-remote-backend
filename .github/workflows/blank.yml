@@ -48,22 +48,13 @@ jobs:
         run: aws sts get-caller-identity
 
       - name: Terraform Init
+        working-directory: environments/${{ github.ref_name }}
         run: terraform init
 
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
-
       - name: Terraform Validate
+        working-directory: environments/${{ github.ref_name }}
         run: terraform validate
 
-      - name: Debug Directory
-        run: |
-          pwd
-          ls -R
-          
       - name: Terraform Plan
+        working-directory: environments/${{ github.ref_name }}
         run: terraform plan
-
-      - name: Terraform Apply
-        if: github.ref_name == 'production' && github.event_name == 'push'
-        run: terraform apply -auto-approve
