@@ -24,8 +24,18 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    environment: ${{ github.ref_name }}
+    environment: sandbox
 
+    env:
+      TF_VAR_bucket_name: ${{ vars.TF_VAR_bucket_name }}
+      TF_VAR_dynamodb_table_name: ${{ vars.TF_VAR_dynamodb_table_name }}
+      TF_VAR_hash_key: ${{ vars.TF_VAR_hash_key }}
+      TF_VAR_enviornment: ${{ vars.TF_VAR_enviornment }}
+      TF_VAR_region: ${{ vars.TF_VAR_region }}    
+
+    defaults:
+      run:
+        working-directory: environments/sandbox
 
     steps:
 
@@ -45,22 +55,22 @@ jobs:
         run: aws sts get-caller-identity
 
       - name: Terraform Init
-        working-directory: environments/${{ github.ref_name }}
+        working-directory: environments/sandbox
         run: terraform init
 
       - name: Terraform Validate
-        working-directory: environments/${{ github.ref_name }}
+        working-directory: environments/sandbox
         run: terraform validate
 
-      - name: Debug TF Vars
-        run: |
-          env | grep TF_VAR
-          
+      # - name: Debug TF Vars
+      #   run: |
+      #     env | grep TF_VAR
+
       - name: Terraform Plan
-        working-directory: environments/${{ github.ref_name }}
+        working-directory: environments/sandbox
         run: terraform plan
 
       - name: Terraform Apply
-        working-directory: environments/${{ github.ref_name }}
+        working-directory: environments/sandbox
         run: terraform apply
       
