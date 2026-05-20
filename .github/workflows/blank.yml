@@ -32,7 +32,7 @@ jobs:
       TF_VAR_hash_key: ${{ vars.TF_VAR_hash_key }}
       TF_VAR_enviornment: ${{ vars.TF_VAR_enviornment }}
       TF_VAR_region: ${{ vars.TF_VAR_region }}    
-      
+
     defaults:
       run:
         working-directory: environments/sandbox
@@ -62,9 +62,9 @@ jobs:
         working-directory: environments/sandbox
         run: terraform validate
 
-      - name: Debug TF Vars
-        run: |
-          env | grep TF_VAR
+      # - name: Debug TF Vars
+      #   run: |
+      #     env | grep TF_VAR
 
       - name: Terraform Plan
         working-directory: environments/sandbox
