@@ -53,6 +53,11 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
+      - name: Debug Directory
+        run: |
+          pwd
+          ls -R
+          
       - name: Terraform Plan
         run: terraform plan
 
